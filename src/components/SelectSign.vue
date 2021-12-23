@@ -1,8 +1,5 @@
 <template>
-  <p>Who are you today ??</p>
-  <select name="select" @input="submitValue">
-    <option v-for="(item, index) in list" :value="item" :key="index">{{ item }}</option>
-  </select>
+  <n-select v-model:value="value" :options="selectList" @update:value="submitValue" />
 </template>
 
 <script>
@@ -12,9 +9,18 @@ export default {
     list: Array,
   },
   emits: ['submit'],
+  data() {
+    return {
+      value: null,
+    };
+  },
+  computed: {
+    selectList() {
+      return this.list.map((item) => ({ label: item, value: item }));
+    },
+  },
   methods: {
-    submitValue(event) {
-      let value = event.target.value;
+    submitValue(value) {
       this.$emit('submit', value);
     },
   },
