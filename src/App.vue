@@ -1,67 +1,91 @@
 <template>
-  <h1>{{ pageTitle }}</h1>
-  <SelectSign :list="list" @submit="getForecast" />
-  <SignCard :sign="sign" :forecast="forecast" :loading="loading" />
+  <kinesis-container class="container">
+    <kinesis-element class="primary-moon" :strength="5">
+      <img src="./assets/primary-moon.png" alt="Primary moon" />
+    </kinesis-element>
+    <kinesis-element class="secondary-moon" :strength="10">
+      <img src="./assets/secondary-moon.png" alt="Secondary moon" />
+    </kinesis-element>
+    <kinesis-element class="rick-and-morty" :strength="50" axis="x">
+      <img src="./assets/rick-and-morty.png" alt="Rick and Morty" />
+    </kinesis-element>
+
+    <kinesis-element class="grass" :strength="100" axis="x">
+      <img src="./assets/grass.png" alt="Grass" />
+    </kinesis-element>
+
+    <div class="content">
+      <h1>{{ pageTitle }}</h1>
+      <SelectSign :list="list" @submit="getForecast" />
+
+      <!-- LOADING -->
+      <ForecastLoading v-if="loading" />
+
+      <!-- ERROR -->
+      <ForecastErorr v-else-if="error" />
+
+      <!-- DATA -->
+      <Forecast v-else-if="!!sign && !!forecast" :sign="sign" :forecast="forecast" />
+    </div>
+  </kinesis-container>
 </template>
 
 <script>
 import SelectSign from './components/SelectSign.vue';
-import SignCard from './components/SignCard.vue';
+import ForecastLoading from './components/ForecastLoading.vue';
+import ForecastErorr from './components/ForecastError.vue';
+import Forecast from './components/Forecast.vue';
+import ForecastService from './services/forecast-service';
+import { darkTheme } from 'naive-ui';
 
 export default {
   name: 'App',
   components: {
     SelectSign,
-    SignCard,
+    ForecastLoading,
+    ForecastErorr,
+    Forecast,
   },
   data() {
     return {
-      pageTitle: 'Who are you today??',
+      pageTitle: 'Кто ты сегодня?',
       list: [
-        'Aries',
-        'Taurus',
-        'Gemini',
-        'Cancer',
-        'Leo',
-        'Virgo',
-        'Libra',
-        'Scorpio',
-        'Sagittarius',
-        'Capricorn',
-        'Aquarius',
-        'Pisces',
+        'aries',
+        'taurus',
+        'gemini',
+        'cancer',
+        'leo',
+        'virgo',
+        'libra',
+        'scorpio',
+        'sagittarius',
+        'capricorn',
+        'aquarius',
+        'pisces',
       ],
       sign: null,
       forecast: null,
       loading: false,
+      error: false,
+      darkTheme,
     };
   },
   methods: {
     getForecast(sign) {
+      const forecastService = new ForecastService();
+
       this.loading = true;
+      this.error = false;
       this.forecast = null;
 
-      const day = 'today';
-
-      const url = new URL('https://sameer-kumar-aztro-v1.p.rapidapi.com');
-      const params = { sign, day };
-
-      url.search = new URLSearchParams(params).toString();
-
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-rapidapi-host': 'sameer-kumar-aztro-v1.p.rapidapi.com',
-          'x-rapidapi-key': 'dea6ab7236msh5d035e56517d4b8p18b79fjsnd4b65491be0b',
-        },
-      })
-        .then((response) => {
-          return response.json();
-        })
+      forecastService
+        .getForecast(sign)
         .then((data) => {
           this.forecast = data;
           this.sign = sign;
+        })
+        .catch(() => {
+          this.error = true;
         })
         .finally(() => {
           this.loading = false;
@@ -72,22 +96,93 @@ export default {
 </script>
 
 <style>
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100%;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
 
-  width: auto;
+.container {
+  margin: 0 !important;
+  padding: 0 !important;
+  position: absolute;
+  overflow: hidden;
+  background-image: url('./assets/background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+
+.primary-moon {
+  position: absolute;
+  right: 10%;
+  top: 10%;
+}
+.primary-moon img {
+  widows: 200px;
+  height: 200px;
+}
+
+.secondary-moon {
+  position: absolute;
+  right: 25%;
+  top: 25%;
+}
+.secondary-moon img {
+  widows: 100px;
+  height: 100px;
+}
+
+.rick-and-morty {
+  position: absolute;
+  left: 25%;
+  bottom: 2%;
+}
+
+.rick-and-morty img {
+  height: 350px;
+}
+
+.grass {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+.grass img {
+  width: calc(100vw + 200px);
+  position: absolute;
+  bottom: 0;
+  left: -100px;
+}
+
+.content {
   max-width: 600px;
   min-width: 320px;
-  padding: 0 1em;
+  height: 100%;
+  padding: 60px 1em;
   box-sizing: border-box;
-  color: #2c3e50;
-  margin: 60px auto 0;
+  color: #fff;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: start;
-  align-items: center;
   gap: 1em;
+  overflow: auto;
+}
+
+h1 {
+  width: 100%;
+  text-align: center;
 }
 </style>
