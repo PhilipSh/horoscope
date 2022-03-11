@@ -33,31 +33,47 @@
     </n-descriptions>
 
     <template #footer>
-      <n-button @click="leaveFeedback">
-        <template #icon>
-          <n-icon>
-            <heart-regular></heart-regular>
-          </n-icon>
-        </template>
+      <n-space>
+        <n-button @click="leaveFeedback">
+          <template #icon>
+            <n-icon>
+              <heart-regular></heart-regular>
+            </n-icon>
+          </template>
 
-        Leave feedback
-      </n-button>
+          Like
+        </n-button>
+
+        <n-button @click="leaveFeedback">
+          <template #icon>
+            <n-icon>
+              <thumbs-down-regular></thumbs-down-regular>
+            </n-icon>
+          </template>
+
+          Dislike
+        </n-button>
+      </n-space>
     </template>
   </n-card>
 
   <n-modal v-model:show="showModal">
-    <n-card style="width: 600px" title="Message for stupid user" :bordered="false" size="huge">
-      Horoscope fucked your opinion!!
+    <n-card class="modal" title="The rule of Ricks horoscope" :bordered="false" size="huge">
+      <n-text tag="div"> Rick fucked your opinion! </n-text>
+      <template #cover>
+        <img src="../assets/rick-and-morty-fuck-you.gif" alt="Rick no" width="400" />
+      </template>
     </n-card>
   </n-modal>
 </template>
 
 <script>
-import { HeartRegular } from '@vicons/fa';
+import { HeartRegular, ThumbsDownRegular } from '@vicons/fa';
 export default {
   name: 'Forecast',
   components: {
     HeartRegular,
+    ThumbsDownRegular,
   },
   props: {
     sign: {
@@ -82,5 +98,8 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style lang="css" scoped>
+.modal {
+  width: auto;
+}
+</style>

@@ -1,10 +1,5 @@
 export default class ForecastService {
   getForecast(sign) {
-    // const url = 'https://horoscopes.rambler.ru/' + sign + '/';
-
-    // const url = 'http://localhost:8000';
-    // return fetch(url);
-
     const day = 'today';
 
     const url = new URL('https://sameer-kumar-aztro-v1.p.rapidapi.com');

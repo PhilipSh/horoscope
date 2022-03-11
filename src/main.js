@@ -17,6 +17,7 @@ import {
   NAlert,
   NEmpty,
   NIcon,
+  NSpace,
 } from 'naive-ui';
 
 const naive = create({
@@ -32,6 +33,7 @@ const naive = create({
     NAlert,
     NEmpty,
     NIcon,
+    NSpace,
   ],
 });
 

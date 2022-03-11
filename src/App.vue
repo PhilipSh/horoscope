@@ -48,7 +48,7 @@ export default {
   },
   data() {
     return {
-      pageTitle: 'Кто ты сегодня?',
+      pageTitle: 'Who are you today?',
       list: [
         'aries',
         'taurus',
@@ -184,5 +184,6 @@ body {
 h1 {
   width: 100%;
   text-align: center;
+  z-index: 1;
 }
 </style>
