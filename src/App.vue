@@ -161,10 +161,10 @@ body {
 }
 
 .grass img {
-  width: 200vw;
+  width: calc(100vw + 800px);
   position: absolute;
   bottom: 0;
-  left: -50vw;
+  left: -400px;
 }
 
 .content {
