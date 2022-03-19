@@ -100,7 +100,7 @@ body {
   margin: 0 !important;
   padding: 0 !important;
   width: 100vw;
-  height: 100vh;
+  height: fill-available;
   max-width: 100%;
 }
 
@@ -151,7 +151,7 @@ body {
 }
 
 .rick-and-morty img {
-  height: 350px;
+  height: 400px;
 }
 
 .grass {
@@ -161,10 +161,10 @@ body {
 }
 
 .grass img {
-  width: calc(100vw + 200px);
+  width: calc(100vw + 400px);
   position: absolute;
   bottom: 0;
-  left: -100px;
+  left: -200px;
 }
 
 .content {
